@@ -146,7 +146,7 @@ class FocusApp:
 
 
 if __name__ == "__main__":
-    # Проверка на админа (нужна для hosts)
+    # Проверка на админа
     try:
         is_admin = os.getuid() == 0
     except AttributeError:
@@ -157,10 +157,8 @@ if __name__ == "__main__":
     if not is_admin:
         import ctypes
 
-        # Хитрость: заменяем python.exe на pythonw.exe (безконсольный) для перезапуска
         executable = sys.executable.replace("python.exe", "pythonw.exe")
 
-        # Запускаем новый процесс. Параметр 1 (показать окно) меняем на логику pythonw
         ctypes.windll.shell32.ShellExecuteW(None, "runas", executable, " ".join(sys.argv), None, 1)
         sys.exit()
 
